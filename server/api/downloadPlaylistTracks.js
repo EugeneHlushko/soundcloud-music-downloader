@@ -44,7 +44,12 @@ export default route.get(
     
     // dirname by playlist title
     var _dirName = sanitize(_query.playlist_title).replace(/\s/g, '_').toLowerCase();
-    var _dir = ( isMissingParam() ) ? false : prepareDir(_dirName);
+    
+    // if its first track, prepare the dir(cleanup old, or create new)
+    let needPrepare = ( _query['prepareDir'] === 'true' )
+      ? true
+      : false;    
+    var _dir = ( isMissingParam() ) ? false : prepareDir(_dirName, needPrepare);
     
     if ( _missingParams.length == 0 && _dir ) {
       debug('koa')('will download this song: ', _query.title); 

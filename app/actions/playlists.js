@@ -85,8 +85,13 @@ class PlaylistsActions {
               }
             }
           };
+          // if its last track send makezip param
           if ( _trackscount === index + 1 ) {
             _url += '&makeZip=true';
+          }
+          // else if its first track, prepare the directory
+          else if ( index == 0 ) {
+            _url += '&prepareDir=true';
           }
           xhr.open('GET', _url);
           xhr.send();

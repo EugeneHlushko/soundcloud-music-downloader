@@ -1,13 +1,13 @@
 import debug from 'debug';
 import fs from 'fs';
 // will create a dir, if failed will return false, if success will return dirpath for filewriting
-export default (dir) => {
+export default (dir, firstRound) => {
   let _dldir = './downloaded/';
   let _dir = _dldir+dir;
   let _err = false;
   
   // first check if downloaded dir exists
-  if ( !fs.existsSync(_dldir) ) {
+  if ( firstRound && !fs.existsSync(_dldir) ) {
     fs.mkdirSync(_dldir, '0777', function(err) {
       _err = (err) ? true : false;
     });   
@@ -16,15 +16,15 @@ export default (dir) => {
   // just return false
   if ( _err ) {
     return _err;
+  }  
+  else if ( firstRound && fs.existsSync(_dir) ) {
+    // cleanup
+    rmDir(_dir, true);
   }
   else if ( !fs.existsSync(_dir) ) {
     fs.mkdirSync(_dir, '0777', function(err) {
       _err = (err) ? true : false;
     });
-  }
-  else if ( fs.existsSync(_dir) ) {
-    // cleanup
-    rmDir(_dir, false);
   }
   return (_err) ? false : _dir;
 };
