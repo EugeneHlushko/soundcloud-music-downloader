@@ -1,0 +1,32 @@
+@import 'variables';
+@import 'mixins';
+
+.app--spinner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: $Zspinner;
+  display: none;
+  background: rgba(255,255,255, 0.7);
+  
+  
+  &:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50%, -50%));
+    content: '';
+    background-image: url('../images/spinner.svg');
+    background-repeat: no-repeat;
+    height: 44px;
+    position: absolute;
+    width: 44px;
+  }  
+
+  &.active {
+    display: block;
+  }
+}

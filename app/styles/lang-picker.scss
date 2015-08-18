@@ -1,0 +1,33 @@
+@import 'variables';
+
+.lang--picker {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  
+  li {
+    margin: 0 10px 0 0;
+    display: inline-block;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+    
+    a,
+    a:visited {
+      cursor: pointer;
+      padding: 0 5px;
+      text-transform: uppercase;
+      color: $white_color;
+      font-size: 18px;
+        
+      &.active {
+        background-color: $white_color;
+        color: $dark_color;
+        opacity: 1;
+      }
+    }
+  }
+}

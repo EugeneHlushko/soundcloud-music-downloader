@@ -1,0 +1,55 @@
+@import 'variables';
+@import 'mixins';
+
+.app {
+  &--header {
+    
+    
+    h1 {
+      max-width: 80%;
+      text-align: center;
+      font-size: 20px;
+      color: $dark_color;
+      line-height: 26px;
+      margin: 100px auto 40px;
+    }
+  }
+  
+  &--navbar {
+    text-align: left;
+    
+    li {
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 16px;      
+      border: 1px solid $dark_color;      
+      
+      &:last-child {
+        margin-right: 0;
+      }
+      
+      a,
+      a:visited {
+        padding: 4px 10px;
+        display: block;
+        text-decoration: none;
+        color: $dark_color;
+        background: transparent;
+        @include transition(all 200ms ease);
+
+        &:hover {
+          background: $dark_color;
+          color: $white_color;
+        }
+        
+        &.active {
+          background: #E8E8E8;
+          &:hover {
+            background: #AFAFAF;
+            color: $dark_color;
+          }
+        }
+      }
+    }
+  }
+}

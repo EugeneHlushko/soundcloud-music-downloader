@@ -1,0 +1,68 @@
+@import 'variables';
+
+.playlists--bulk {
+  margin-top: 20px;
+  display: none;
+  
+  &.active {
+    display: block;
+  }
+  
+  .plss {
+    border: 1px solid $dark_color;
+    border-bottom: none;
+    
+    &:nth-child(odd) {
+      background: #FFF4E4;
+    }
+    
+    &:last-child {
+      border-bottom: 1px solid $dark_color;
+    }
+    
+    &--headingrow {
+      background: $dark_color;
+      color: $white_color;
+      
+      & > * {
+        padding: 4px 10px;
+      }
+    }
+    
+    & > * {
+      padding: 4px 10px;
+    }
+    
+    &--id {
+      float: left;
+      width: 15%;
+    }
+    
+    &--title {
+      float: left;
+      width: 40%;
+      border-left: 1px solid $dark_color;
+      border-right: 1px solid $dark_color;
+    }
+    
+    &--count {
+      float: left;
+      width: 15%;
+    }
+    
+    &--actions {
+      width: 30%;
+      float: left;
+      border-left: 1px solid $dark_color;
+    }
+    
+    &--action {      
+      display: inline-block;
+      margin-right: 4%;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  } 
+}

@@ -1,0 +1,35 @@
+.app--footer {
+  height: 45px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #161815;
+  z-index: 10;
+}
+
+.clientid--holder {
+  float: left;
+  padding-top: 9px;
+  font-size: 16px;
+  color: #fbfdf8;
+  
+  label {
+    float: left;
+    margin: 0 9px 0 14px;
+    display: block;
+    line-height: 27px;
+  }
+  
+  input {
+    height: 27px;
+    width: 210px;
+    line-height: 27px;
+    background: #444444;
+    border: none;
+    outline: none;
+    display: block;
+    float: left;
+    padding: 0 6px;
+  }
+}
