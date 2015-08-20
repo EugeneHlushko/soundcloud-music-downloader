@@ -12,7 +12,8 @@ class Tracks extends Component {
   static propTypes = {
     flux: PropTypes.object.isRequired,
     locales: PropTypes.array.isRequired,
-    tracks: PropTypes.array.isRequired
+    tracks: PropTypes.array.isRequired,
+    addTrack: PropTypes.object.isRequired
   }
 
   _getIntlMessage = IntlMixin.getIntlMessage
@@ -37,6 +38,10 @@ class Tracks extends Component {
         <div className='track--actions'>
           <div className='track--action dl'>
             {this._getIntlMessage('playlists.action.dl')}
+          </div>
+          <div className='track--action remove'
+            onClick={this.props.addTrack.bind(this, pls)} >
+            {this._getIntlMessage('tracks.remove')}
           </div>
         </div>
       </div>
@@ -65,7 +70,7 @@ class Tracks extends Component {
               {this._getIntlMessage('playlists.actions')}
             </div>
           </div>
-          <CSSTransitionGroup component="div" transitionName="fade" transitionAppear={true} transitionLeave={true}>
+          <CSSTransitionGroup component="div" transitionName="slideIn" transitionAppear={true} transitionLeave={true}>
           {
             tracks.map(this._renderTracks)
           }

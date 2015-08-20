@@ -12,7 +12,6 @@ class Playlists extends Component {
   static propTypes = {
     flux: PropTypes.object.isRequired,
     addTrack: PropTypes.object.isRequired,
-    removeTrack: PropTypes.object.isRequired,
     allTracks: PropTypes.object.isRequired
   }
 

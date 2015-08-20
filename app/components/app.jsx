@@ -92,8 +92,9 @@ class App extends Component {
   }
 
   render() {
+    let cName = this.state.tracks.length > 0 ? 'tracksFix' : '';
     return (
-      <div>
+      <div className={cName}>
         <Header
           {...this.state.i18n}
           flux={this.props.flux} />
@@ -104,7 +105,8 @@ class App extends Component {
         <Tracks
           {...this.state.i18n}
           tracks={this.state.tracks}
-          flux={this.props.flux} />
+          flux={this.props.flux}
+          addTrack={this._handleAddTrack} />
         <Footer
           {...this.state.i18n}
           clientid={this.state.clientid}

@@ -13,6 +13,10 @@ body {
   @include box-sizing(border-box);
 }
 
+.tracksFix {
+  padding-right: 33%;
+}
+
 .cfx:after {
   display: table;
   clear: both;
@@ -72,11 +76,22 @@ body {
     opacity: 0.01;
 }
 
-.fade-appear {
-    opacity: 0.01;
-    transition: opacity .5s ease-in;
+.slideIn-enter {
+  opacity: 0.01;
+  transform: translateX(-50px);
+  transition: all .2s ease-in;
 }
 
-.fade-appear.fade-appear-active {
-    opacity: 1;
+.slideIn-enter.slideIn-enter-active {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.slideIn-leave {  
+  transition: all .1s ease-in;
+}
+
+.slideIn-leave.slideIn-leave-active {
+  opacity: 0.01;
+  transform: translateX(50px);
 }

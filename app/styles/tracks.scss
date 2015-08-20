@@ -1,6 +1,14 @@
 @import 'variables';
 
 .appTracks {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 45px;
+  width: 33%;
+  background: #fff;
+  box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.7);
+  display: none;
   
   &.active {
     display: block;
@@ -19,6 +27,7 @@
       border: 1px solid $dark_color;
       border-bottom: none;
       display: flex;
+      font-size: 14px;
 
       &:nth-child(odd) {
         background: #FFF4E4;
@@ -42,22 +51,30 @@
       }
 
       &--id {
-        width: 10%;
+        width: 15%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;        
       }
 
       &--title {        
         border-left: 1px solid $dark_color;
         border-right: 1px solid $dark_color;
-        flex-grow: 2;
+        width: 45%;
       }
 
       &--actions {
-        width: 30%;
+        width: 40%;
       }
 
       &--action {      
         display: inline-block;
         margin-right: 4%;
+        cursor: pointer;
+        
+        &:hover {
+          text-decoration: underline;
+        }
 
         &:last-child {
           margin-right: 0;
