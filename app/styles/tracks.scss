@@ -39,20 +39,20 @@
 
       & > * {
         padding: 4px 10px;
-        flex-grow: 1;
       }
 
       &--id {
-        
+        width: 10%;
       }
 
       &--title {        
         border-left: 1px solid $dark_color;
         border-right: 1px solid $dark_color;
+        flex-grow: 2;
       }
 
-      &--actions {        
-        border-left: 1px solid $dark_color;
+      &--actions {
+        width: 30%;
       }
 
       &--action {      

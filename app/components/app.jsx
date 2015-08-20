@@ -44,10 +44,6 @@ class App extends Component {
     this.props.flux
       .getStore('tracks')
       .listen(this._handleTrackChange);
-
-    setInterval(() => {
-      debug('dev')(this.state);
-    }, 1000);
   }
 
   componentWillUnmount() {
@@ -92,7 +88,7 @@ class App extends Component {
   // locale and messages sent from the Locale Store
   renderChild = (child) => {
     return React.addons
-      .cloneWithProps(child, {...this.state.i18n, addTrack: this._handleAddTrack});
+      .cloneWithProps(child, {...this.state.i18n, addTrack: this._handleAddTrack, allTracks: this.state.tracks});
   }
 
   render() {

@@ -118,6 +118,11 @@
         > div {
           flex-grow: 1;
           cursor: pointer;
+          
+          &.remove {
+            color: #FB1D1D;
+          }
+          
           &:hover {
             text-decoration: underline;
           }

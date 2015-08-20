@@ -15,7 +15,14 @@ class TracksStore {
 
   onSetTracksSuccess(track) {
     debug('dev')('received tracks in SetTracksSuccess: ', track);
-    this.tracks.push(track);
+    let _alreadyInArray = this.tracks.indexOf(track);
+    // if not already in tracklist, then add
+    if ( _alreadyInArray === -1) {
+      this.tracks.push(track);
+    }
+    else {
+      this.tracks.splice(_alreadyInArray, 1);
+    }
     return this.setState({
       tracks: this.tracks
     });

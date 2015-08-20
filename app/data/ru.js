@@ -25,7 +25,8 @@ export default {
       header: 'Construct your own playlists',
       id: 'ID',
       title: 'Track title',
-      add: 'Add to current selection'
+      add: 'Add to current selection',
+      remove: 'Remove from selection'
     },
     protected: {
       'page-title': 'Protected Page'

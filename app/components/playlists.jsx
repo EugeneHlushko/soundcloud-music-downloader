@@ -11,7 +11,9 @@ class Playlists extends Component {
 
   static propTypes = {
     flux: PropTypes.object.isRequired,
-    addTrack: PropTypes.object.isRequired
+    addTrack: PropTypes.object.isRequired,
+    removeTrack: PropTypes.object.isRequired,
+    allTracks: PropTypes.object.isRequired
   }
 
   _getIntlMessage = IntlMixin.getIntlMessage
@@ -83,6 +85,10 @@ class Playlists extends Component {
   }
 
   _renderTrack = (track, index) => {
+    let isIn = this.props.allTracks.indexOf(track) > -1;
+    let trackActionText = (isIn) ? this._getIntlMessage('tracks.remove') : this._getIntlMessage('tracks.add');
+    let actionClass = (isIn) ? 'plstrack--action remove' : 'plstrack--action';
+
     return (
       <div className='plstrack' key={track.id}>
         <div className='counter'>
@@ -95,9 +101,9 @@ class Playlists extends Component {
           <div className='plstrack--action'>
             {this._getIntlMessage('playlists.action.dl')}
           </div>
-          <div className='plstrack--action'
+          <div className={actionClass}
             onClick={this.props.addTrack.bind(this, track)}>
-            {this._getIntlMessage('tracks.add')}
+            {trackActionText}
           </div>
         </div>
       </div>
