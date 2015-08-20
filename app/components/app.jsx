@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react/addons';
+import debug from 'debug';
 
 import Header from 'components/header';
 import Footer from 'components/footer';
+import Tracks from 'components/tracks';
 
 if (process.env.BROWSER) {
   require('styles/main.scss');
@@ -23,7 +25,10 @@ class App extends Component {
         .getState(),
       clientid: props.flux
         .getStore('client')
-        .getState()
+        .getState(),
+      tracks: props.flux
+        .getStore('tracks')
+        .getState().tracks
     };
   }
 
@@ -35,6 +40,14 @@ class App extends Component {
     this.props.flux
       .getStore('page-title')
       .listen(this._handlePageTitleChange);
+
+    this.props.flux
+      .getStore('tracks')
+      .listen(this._handleTrackChange);
+
+    setInterval(() => {
+      debug('dev')(this.state);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -45,6 +58,10 @@ class App extends Component {
     this.props.flux
       .getStore('page-title')
       .unlisten(this._handlePageTitleChange);
+
+    this.props.flux
+      .getStore('tracks')
+      .unlisten(this._handleTrackChange);
   }
 
   _handleLocaleChange = (i18n) => {
@@ -59,12 +76,23 @@ class App extends Component {
     document.title = title;
   }
 
+  _handleTrackChange = (store) => {
+    debug('dev')('YEAH handle the add track here man', store);
+
+    return this.setState(store);
+//    return this.setState({tracks: store.tracks});
+  }
+
+  _handleAddTrack = (track) => {
+    this.props.flux.getActions('tracks').addTrack(track);
+  }
+
   // If we have children components sent by `react-router`
   // we need to clone them and add them the correct
   // locale and messages sent from the Locale Store
   renderChild = (child) => {
     return React.addons
-      .cloneWithProps(child, {...this.state.i18n});
+      .cloneWithProps(child, {...this.state.i18n, addTrack: this._handleAddTrack});
   }
 
   render() {
@@ -77,6 +105,10 @@ class App extends Component {
           React.Children
             .map(this.props.children, this.renderChild)
         }
+        <Tracks
+          {...this.state.i18n}
+          tracks={this.state.tracks}
+          flux={this.props.flux} />
         <Footer
           {...this.state.i18n}
           clientid={this.state.clientid}

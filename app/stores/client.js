@@ -16,8 +16,6 @@ class ClientStore {
 
   onSwitchClientidSuccess(clientid) {
     debug('dev')('received clientid in success: ', clientid);
-    // Save locale into a cookie
-    // that will be read from server on requests
     if (process.env.BROWSER) {
       Cookies.set('_clientid', clientid, {expires: Infinity});
       debug('dev')(`updated _clientid cookie to ${clientid}`);

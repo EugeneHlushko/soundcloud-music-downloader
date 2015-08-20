@@ -6,6 +6,7 @@
 
 body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding-bottom: 90px;
 }
 
 * {
@@ -44,7 +45,7 @@ body {
     border: 1px solid #09400D;
     background: $highlight;
     color: $white_color;
-    line-height: 30px;
+    line-height: 28px;
     outline: none;
     cursor: pointer;
     display: block;

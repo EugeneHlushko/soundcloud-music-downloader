@@ -10,7 +10,8 @@ if (process.env.BROWSER) {
 class Playlists extends Component {
 
   static propTypes = {
-    flux: PropTypes.object.isRequired
+    flux: PropTypes.object.isRequired,
+    addTrack: PropTypes.object.isRequired
   }
 
   _getIntlMessage = IntlMixin.getIntlMessage
@@ -31,6 +32,7 @@ class Playlists extends Component {
     this.state.userid = this.props.flux
         .getStore('playlists')
         .getUserid();
+    this.state.playlistTracks = [];
   }
 
   componentDidMount() {
@@ -74,7 +76,37 @@ class Playlists extends Component {
     });
   }
 
+  _browsePlaylistTracksNow = (el) => {
+    debug('dev')('clicked BROWSE on ', el);
+    this.setState({playlistTracks: {tracks: el.tracks, id: el.id}});
+    return this.state;
+  }
+
+  _renderTrack = (track, index) => {
+    return (
+      <div className='plstrack' key={track.id}>
+        <div className='counter'>
+          {index}
+        </div>
+        <div className='plstrack--title'>
+          {track.title}
+        </div>
+        <div className='plstrack--actions'>
+          <div className='plstrack--action'>
+            {this._getIntlMessage('playlists.action.dl')}
+          </div>
+          <div className='plstrack--action'
+            onClick={this.props.addTrack.bind(this, track)}>
+            {this._getIntlMessage('tracks.add')}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   _renderPlaylists = (pls) => {
+    let _tracks = ( this.state.playlistTracks.id === pls.id ) ? this.state.playlistTracks.tracks : [];
+    let tracksContainerClass = ( _tracks.length > 0 ) ? 'tracklist active' : 'tracklist';
     return (
       <div className='plss cfx' key={pls.id} uri={pls.uri}>
         <div className='plss--id'>
@@ -87,7 +119,8 @@ class Playlists extends Component {
           {pls.tcount}
         </div>
         <div className='plss--actions'>
-          <div className='plss--action view'>
+          <div className='plss--action view'
+            onClick={this._browsePlaylistTracksNow.bind(this, pls)}>
             {this._getIntlMessage('playlists.action.view')}
           </div>
           <div className='plss--action dl'
@@ -95,6 +128,17 @@ class Playlists extends Component {
             {this._getIntlMessage('playlists.action.dl')}
           </div>
         </div>
+        <div className='cfx'></div>
+        <aside className={tracksContainerClass}>
+          <div className='tracklist--heading'>
+            {this._getIntlMessage('playlists.pltracks')}
+          </div>
+          <CSSTransitionGroup component="div" transitionName="fade" transitionAppear={true} transitionLeave={false}>
+          {
+            _tracks.map(this._renderTrack)
+          }
+          </CSSTransitionGroup>
+        </aside>
       </div>
     );
   }

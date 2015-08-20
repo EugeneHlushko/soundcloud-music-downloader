@@ -59,10 +59,72 @@
     &--action {      
       display: inline-block;
       margin-right: 4%;
+      cursor: pointer;
+      
+      &:hover {
+        text-decoration: underline;
+      }
       
       &:last-child {
         margin-right: 0;
       }
     }
-  } 
+  }
+  
+  .tracklist {
+    display: none;
+    border-top: 1px solid #000;
+    margin-top: -4px;
+    box-shadow: inset 2px 2px 8px 0px rgba(0,0,0,0.4);
+    
+    &.active {
+      display: block;
+    }
+    
+    &--heading {
+      margin-bottom: 20px;
+      font-size: 19px;
+    }
+    
+    .plstrack {
+      display: flex;
+      border: 1px dashed $dark_color;
+      border-bottom: none;
+      font-size: 16px;
+      padding: 2px 4px;
+      
+      &:last-child {
+        border-bottom: 1px dashed $dark_color;
+      }
+      
+      &:hover {
+        background: #FFE1D2;
+      }
+      
+      .counter {
+        padding-right: 4px;
+        border-right: 1px dashed $dark_color;
+        margin-right: 4px;
+      }
+      
+      &--title {
+        flex-grow: 2;
+      }
+      
+      &--actions {
+        width: 30%;
+        display: flex;
+        
+        > div {
+          flex-grow: 1;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+        }        
+      }     
+      
+    }
+  }
+  
 }

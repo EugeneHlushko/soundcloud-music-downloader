@@ -18,7 +18,14 @@ export default {
       action: {
         view: 'Browse',
         dl: 'Download'
-      }
+      },
+      pltracks: 'Playlist tracks'
+    },
+    tracks: {
+      header: 'Construct your own playlists',
+      id: 'ID',
+      title: 'Track title',
+      add: 'Add to current selection'
     },
     protected: {
       'page-title': 'Protected Page'

@@ -90,7 +90,7 @@ class PlaylistsActions {
             _url += '&makeZip=true';
           }
           // else if its first track, prepare the directory
-          else if ( index == 0 ) {
+          else if ( index === 0 ) {
             _url += '&prepareDir=true';
           }
           xhr.open('GET', _url);
