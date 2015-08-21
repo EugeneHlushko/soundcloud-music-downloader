@@ -9,6 +9,11 @@ export default class TracksActions {
 
   addTrack(track) {
     debug('dev')('received these tracks array in actions Tracks ', track);
-    this.actions.setTracksSuccess(track);
+    let _track = {
+      id: track.id,
+      title: track.title,
+      stream_url: track.stream_url
+    };
+    this.actions.setTracksSuccess(_track);
   }
 }

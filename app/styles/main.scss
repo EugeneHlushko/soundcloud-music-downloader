@@ -14,7 +14,10 @@ body {
 }
 
 .tracksFix {
-  padding-right: 33%;
+  transition: padding 200ms ease-Out;  
+  &.active {
+    padding-right: 33%;
+  }  
 }
 
 .cfx:after {

@@ -17,8 +17,7 @@ class PlaylistsStore {
 
   onSwitchUseridSuccess(userid) {
     debug('dev')('received clientid in success: ', userid);
-    // Save locale into a cookie
-    // that will be read from server on requests
+    // Save userID to cookie if available
     if (process.env.BROWSER) {
       Cookies.set('_playlists_userid', userid, {expires: Infinity});
       debug('dev')(`updated _playlists_userid cookie to ${userid}`);

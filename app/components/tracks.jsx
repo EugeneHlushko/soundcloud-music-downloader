@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {IntlMixin} from 'react-intl';
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 import debug from 'debug';
 
 if (process.env.BROWSER) {
@@ -70,11 +69,9 @@ class Tracks extends Component {
               {this._getIntlMessage('playlists.actions')}
             </div>
           </div>
-          <CSSTransitionGroup component="div" transitionName="slideIn" transitionAppear={true} transitionLeave={true}>
           {
             tracks.map(this._renderTracks)
           }
-          </CSSTransitionGroup>
         </div>
       </section>
     );

@@ -36,14 +36,15 @@ class App extends Component {
     this.props.flux
       .getStore('locale')
       .listen(this._handleLocaleChange);
-
     this.props.flux
       .getStore('page-title')
       .listen(this._handlePageTitleChange);
-
     this.props.flux
       .getStore('tracks')
       .listen(this._handleTrackChange);
+    setInterval(() => {
+      debug('dev')(this.state.tracks);
+    }, 2000);
   }
 
   componentWillUnmount() {
@@ -92,7 +93,7 @@ class App extends Component {
   }
 
   render() {
-    let cName = this.state.tracks.length > 0 ? 'tracksFix' : '';
+    let cName = this.state.tracks.length > 0 ? 'tracksFix active' : 'tracksFix';
     return (
       <div className={cName}>
         <Header

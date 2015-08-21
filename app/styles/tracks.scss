@@ -7,11 +7,12 @@
   bottom: 45px;
   width: 33%;
   background: #fff;
-  box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.7);
-  display: none;
+  box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.7);  
+  transition: all 200ms ease-Out;
+  transform: translateX(100%);
   
-  &.active {
-    display: block;
+  &.active {    
+    transform: translateX(0);
   }
   
   h1 {
@@ -28,6 +29,18 @@
       border-bottom: none;
       display: flex;
       font-size: 14px;
+      
+      animation: moveIn 200ms ease-out;
+      @keyframes moveIn {
+        from {
+          transform: translateX(-50px) rotateZ(-20deg);
+          opacity: 0.01;
+        }
+        to {
+          transform: translateX(0px) rotateZ(0deg);
+          opacity: 1;
+        }
+      }
 
       &:nth-child(odd) {
         background: #FFF4E4;
