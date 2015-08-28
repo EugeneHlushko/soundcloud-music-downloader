@@ -8,7 +8,7 @@ class Flux extends Alt {
 
     this._resolver = new AltResolver();
 
-    ['requests', 'locale', 'form', 'page-title', 'client', 'playlists', 'tracks']
+    ['requests', 'locale', 'form', 'page-title', 'client', 'playlists', 'tracks', 'search']
       .map(this.registerCouple);
   }
 

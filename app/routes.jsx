@@ -12,6 +12,10 @@ export default (
       paths: ['/playlists'],
       component: require('./components/playlists')
     })}
+    {generateRoute({
+      paths: ['/search'],
+      component: require('./components/searchscloud')
+    })}
     <Route path='*' component={require('./pages/not-found')} />
   </Route>
 );

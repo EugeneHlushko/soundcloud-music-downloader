@@ -42,9 +42,6 @@ class App extends Component {
     this.props.flux
       .getStore('tracks')
       .listen(this._handleTrackChange);
-    setInterval(() => {
-      debug('dev')(this.state.tracks);
-    }, 2000);
   }
 
   componentWillUnmount() {

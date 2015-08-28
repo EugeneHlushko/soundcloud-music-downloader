@@ -71,14 +71,15 @@
     }
   }
   
-  .tracklist {
-    display: none;
-    border-top: 1px solid #000;
-    margin-top: -4px;
-    box-shadow: inset 2px 2px 8px 0px rgba(0,0,0,0.4);
+  .tracklist {    
+    margin-top: -4px;    
+    height: 0;
+    overflow: hidden;
+    padding: 0;
     
     &.active {
-      display: block;
+      border-top: 1px solid #000;      
+      height: auto;
     }
     
     &--heading {

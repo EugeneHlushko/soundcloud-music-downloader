@@ -28,6 +28,10 @@ export default {
       add: 'Add to current selection',
       remove: 'Remove from selection'
     },
+    search: {
+      'page-title': 'Search audio on Soundcloud',
+      'heading': 'Enter keyword to search'
+    },
     protected: {
       'page-title': 'Protected Page'
     },
