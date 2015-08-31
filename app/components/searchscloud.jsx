@@ -9,10 +9,17 @@ if (process.env.BROWSER) {
 class Searchscloud extends Component {
 
   static propTypes = {
-    flux: PropTypes.object.isRequired
+    flux: PropTypes.object.isRequired,
+    addTrack: PropTypes.object.isRequired,
+    allTracks: PropTypes.array.isRequired
   }
 
   state = this.props.flux.getStore('search').getState();
+  _timeout = {
+    running: false,
+    itself: null,
+    interval: 1000
+  };
 
   _getIntlMessage = IntlMixin.getIntlMessage
 
@@ -22,9 +29,9 @@ class Searchscloud extends Component {
       .listen(this._handleResultsChange);
     this.state.searchQry = '';
 
-    setInterval(() => {
-      debug('dev')(this.state);
-    }, 2000);
+//    setInterval(() => {
+//      debug('dev')(this.state.searchQry);
+//    }, 100);
   }
 
   componentWillUnmount() {
@@ -39,19 +46,44 @@ class Searchscloud extends Component {
   }
 
   _startSearch = (event) => {
-    debug('dev')('Will start searching by keyword', event.target.value);
-    this.state.searchQry = event.target.value;
+    let _val = event.target.value;
+    debug('dev')('Will start searching by keyword if timeout goes on and if more then 3 keys entered', _val);
+    if ( _val.length > 2 ) {
+      if ( this._timeout.running ) {
+        clearTimeout(this._timeout.itself);
+        this._timeout.itself = null;
+        this._timeout.running = false;
+      }
+      // now that TO is cleared, start new one
+      this._timeout.running = true;
+      this._timeout.itself = setTimeout(this._doSearch, this._timeout.interval);
+    }
+    return this.setState({searchQry: _val});
+  }
+
+  _doSearch = () => {
     this.props.flux.getActions('search').searchTrack({query: this.state.searchQry});
   }
 
   _renderTracks = (pls) => {
+    let isIn = this.props.allTracks.some((oneItem)=> {
+      return oneItem.id === pls.id;
+    });
+    let trackActionText = (isIn) ? this._getIntlMessage('tracks.remove') : this._getIntlMessage('tracks.add');
+    let actionClass = (isIn) ? 'track--action remove' : 'track--action';
     return (
       <div className='track cfx' key={pls.id} uri={pls.uri}>
-        <div className='track--id'>
-          {pls.id}
-        </div>
         <div className='track--title'>
           {pls.title}
+        </div>
+        <div className='track--actions'>
+          <div className='track--action dl'>
+            {this._getIntlMessage('playlists.action.dl')}
+          </div>
+          <div className={actionClass}
+            onClick={this.props.addTrack.bind(this, pls)} >
+            {trackActionText}
+          </div>
         </div>
       </div>
     );
@@ -65,13 +97,16 @@ class Searchscloud extends Component {
 
     return (
       <section className={_resultsActive}>
-        {this._getIntlMessage('search.heading')}
-        <input
-          value={this.state.searchQry}
-          onChange={this._startSearch} />
-        <div className='searchTracks cfx'>
+        <h1></h1>
+        <div className='searchRow cfx'>
+          {this._getIntlMessage('search.heading')}
+          <input
+            value={this.state.searchQry}
+            onChange={this._startSearch} />
+        </div>
+        <div className='appTracks--bulk cfx'>
         {
-          this.state.results.map(this._renderTracks)
+         this.state.results.map(this._renderTracks)
         }
         </div>
       </section>

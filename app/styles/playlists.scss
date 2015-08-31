@@ -121,7 +121,7 @@
           cursor: pointer;
           
           &.remove {
-            color: #FB1D1D;
+            color: $error_color;
           }
           
           &:hover {

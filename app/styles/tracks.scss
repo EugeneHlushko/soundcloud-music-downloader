@@ -93,6 +93,10 @@
         &:last-child {
           margin-right: 0;
         }
+        
+        &.remove {
+          color: $error_color;
+        }
       }
     } 
     
