@@ -15,6 +15,10 @@ class Tracks extends Component {
     addTrack: PropTypes.object.isRequired
   }
 
+  state = {
+    playlistName: ''
+  }
+
   _getIntlMessage = IntlMixin.getIntlMessage
 
   componentWillMount() {
@@ -23,6 +27,16 @@ class Tracks extends Component {
 
   componentDidMount() {
     debug('dev')('Tracks component mounted, state is', this.props.tracks);
+  }
+
+  _donwloadPlaylistTracksNow = () => {
+    return this.props.flux.getActions('playlists').downloadPlaylistTracks({
+      clientid: this.props.flux
+        .getStore('client')
+        .getClientid(),
+      tracks: this.props.tracks,
+      playlist_title: this.state.playlistName
+    });
   }
 
   _renderTracks = (pls) => {
@@ -47,16 +61,32 @@ class Tracks extends Component {
     );
   }
 
+  _changePlaylistName = (event) => {
+    return this.setState({playlistName: event.target.value});
+  }
+
   render() {
     let tracks = (this.props.tracks.length > 0) ? this.props.tracks : [];
     let _tracksActive = (tracks.length > 0)
       ? 'appTracks cfx active'
       : 'appTracks cfx';
+    let _dlActive = (tracks.length > 0 && this.state.playlistName.length > 1 )
+      ? 'btn downloadAll active'
+      : 'btn downloadAll';
 
     return (
       <section className={_tracksActive}>
         <h1>{this._getIntlMessage('tracks.header')}</h1>
+        <div className='inputrow cfx'>
+          Playlist name
+          <input
+            onChange={this._changePlaylistName} />
 
+          <div className={_dlActive}
+            onClick={this._donwloadPlaylistTracksNow} >
+            {this._getIntlMessage('tracks.downloadPlaylist')}
+          </div>
+        </div>
         <div className='appTracks--bulk cfx'>
           <div className='track headingrow cfx'>
             <div className='track--id'>

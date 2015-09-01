@@ -26,7 +26,8 @@ export default {
       id: 'ID',
       title: 'Track title',
       add: 'Add to current selection',
-      remove: 'Remove from selection'
+      remove: 'Remove from selection',
+      downloadPlaylist: 'Download tracks'
     },
     search: {
       'page-title': 'Search audio on Soundcloud',

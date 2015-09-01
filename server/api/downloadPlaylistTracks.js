@@ -50,34 +50,43 @@ export default route.get(
       ? true
       : false;    
     var _dir = ( isMissingParam() ) ? false : prepareDir(_dirName, needPrepare);
+    debug('dev')('DIR NOW IS', _dir, 'need prepare =', needPrepare);
     
     if ( _missingParams.length == 0 && _dir ) {
       debug('koa')('will download this song: ', _query.title); 
       let _filename = _dir+'/'+sanitize(_query.title).replace(/\s/g, '_').toLowerCase()+'.mp3';
       let file = fs.createWriteStream(_filename);      
       let str = '';
-      yield (callback) => {      
-        https.get(_query.stream_url+'?client_id='+_query.clientid, function(res) {
+      yield (callback) => {
+        let _streamUrl = _query.stream_url+'?client_id='+_query.clientid;
+        debug('dev')('------1', _streamUrl);
+        https.get(_streamUrl, function(res) {
+          debug('dev')('------2', res);
           res.on('data', function (chunk) {
+            debug('dev')('------2.5', chunk, str);
             str += chunk;
           });
           res.on('end', function () {
+            debug('dev')('BEFORE PARSE', str);
             let _finalResponse = JSON.parse(str);
             debug('dev')('file location at:', _finalResponse.location);
-            if ( _finalResponse.status == '302 - Found' ) {            
+            if ( _finalResponse.status == '302 - Found' ) {
+              debug('dev')('here is response from stream url', _finalResponse);
               https.get(_finalResponse.location, function(__response) {
+                debug('dev')('whaat');
                 __response.pipe(file);
                 _toClientResponse.success = 'finished downloading '+_filename;
-                callback(null, console.log('finished downloading '+_filename));
+                callback(null, debug('dev')('finished downloading '+_filename));
                 __response.on('error', function(err) {
                   debug('dev')('httpserrot occured', err);
                 });
               });
             } else {
-              callback(null, console.log('Error downloading'+_filename));
+              callback(null, debug('dev')('Error downloading'+_filename));
             }
-          });
+          });          
           res.on('error', function(err) {
+            debug('dev')('------2.err');
             debug('dev')('httpserrot occured', err);
           });
         });
