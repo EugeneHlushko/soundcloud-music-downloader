@@ -24,7 +24,7 @@ const config = Object.assign({}, baseConfig, {
   output: Object.assign(
     baseConfig.output,
     {publicPath: PUBLIC_PATH}
-  )  
+  )
 });
 
 config.module.loaders = config.module.loaders.concat([
@@ -35,7 +35,8 @@ config.module.loaders = config.module.loaders.concat([
   },
   {
     test: /\.scss$/,
-    loader: 'style!css?sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'
+    loader: 'file'
+    //loader: 'style!css?sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'
   }
 ]);
 
