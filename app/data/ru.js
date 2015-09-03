@@ -33,6 +33,9 @@ export default {
       'page-title': 'Search audio on Soundcloud',
       'heading': 'Enter keyword to search'
     },
+    user: {
+      view: 'View profile'
+    },
     protected: {
       'page-title': 'Protected Page'
     },

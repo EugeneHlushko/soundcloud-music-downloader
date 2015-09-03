@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {IntlMixin} from 'react-intl';
 import debug from 'debug';
+// import render components
+import TrackOutside from 'components/shared/trackOutside';
 
 if (process.env.BROWSER) {
   require('styles/searchscloud.scss');
@@ -11,10 +13,12 @@ class Searchscloud extends Component {
   static propTypes = {
     flux: PropTypes.object.isRequired,
     addTrack: PropTypes.object.isRequired,
-    allTracks: PropTypes.array.isRequired
+    allTracks: PropTypes.array.isRequired,
+    clientid: PropTypes.string.isRequired
   }
 
   state = this.props.flux.getStore('search').getState();
+
   _timeout = {
     running: false,
     itself: null,
@@ -28,6 +32,12 @@ class Searchscloud extends Component {
       .getStore('search')
       .listen(this._handleResultsChange);
     this.state.searchQry = '';
+    this.state.clientid = this.props.flux
+      .getStore('client')
+      .getClientid();
+    this.state.i18 = this.props.flux
+      .getStore('locale')
+      .getState();
 
 //    setInterval(() => {
 //      debug('dev')(this.state.searchQry);
@@ -62,7 +72,10 @@ class Searchscloud extends Component {
   }
 
   _doSearch = () => {
-    this.props.flux.getActions('search').searchTrack({query: this.state.searchQry});
+    this.props.flux.getActions('search').searchTrack({
+      query: this.state.searchQry,
+      clientid: this.state.clientid
+    });
   }
 
   _renderTracks = (pls) => {
@@ -89,6 +102,22 @@ class Searchscloud extends Component {
     );
   }
 
+  _renderUser = (pls) => {
+    return (
+      <div className='track cfx' key={pls.id} uri={pls.uri}>
+        <div className='track--title'>
+          {pls.username}
+        </div>
+        <div className='track--actions'>
+          <div className='track--action'
+               onClick={this.props.addTrack.bind(this, pls)} >
+            {this._getIntlMessage('user.view')}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     let results = (this.state.results.length > 0) ? this.state.results : [];
     let _resultsActive = (results.length > 0)
@@ -106,7 +135,28 @@ class Searchscloud extends Component {
         </div>
         <div className='appTracks--bulk cfx'>
         {
-         this.state.results.map(this._renderTracks)
+          this.state.results.map((item) => {
+            debug('dev')('Will render this item: ', item);
+            if ( item.kind === 'track' ) {
+              // return this._renderTracks(item);
+              let isIn = this.props.allTracks.some((oneItem)=> {
+                return oneItem.id === item.id;
+              });
+              return (<TrackOutside
+                {...this.state.i18n}
+                flux={this.props.flux}
+                addTrack={this.props.addTrack}
+                isIn={isIn}
+                item={item}
+                key={item.id} />);
+            }
+            else if ( item.kind === 'user' ) {
+              return this._renderUser(item);
+            }
+            else if ( item.kind === 'playlist' ) {
+              return this._renderUser(item);
+            }
+          })
         }
         </div>
       </section>

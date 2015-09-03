@@ -86,7 +86,7 @@ class App extends Component {
   // locale and messages sent from the Locale Store
   renderChild = (child) => {
     return React.addons
-      .cloneWithProps(child, {...this.state.i18n, addTrack: this._handleAddTrack, allTracks: this.state.tracks});
+      .cloneWithProps(child, {...this.state.i18n, clientid: this.state.clientid, addTrack: this._handleAddTrack, allTracks: this.state.tracks});
   }
 
   render() {

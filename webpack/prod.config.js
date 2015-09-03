@@ -22,8 +22,9 @@ config.module.loaders = config.module.loaders.concat([
   },
   {
     test: /\.scss$/,
-    loader: 'file'
-    //loader: 'style!css?sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=compressed'
+    //loader: 'file'
+    loader: 'style!css?sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=compressed'
+    //loader: 'style!css!sass'
     // crashes on mac os
   }
 ]);

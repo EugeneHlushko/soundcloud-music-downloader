@@ -22,7 +22,7 @@ class SearchActions {
             if (xhr.status === 200) {
               debug('dev')('raw reply from server on search', JSON.parse(xhr.responseText));
               const responsified = JSON.parse(xhr.responseText);
-              this.actions.searchSuccess({tracks: responsified});
+              this.actions.searchSuccess(responsified);
               prv.alt.getActions('requests').success();
               return resolve();
             }
@@ -31,7 +31,7 @@ class SearchActions {
             }
           }
         };
-        xhr.open('GET', `http://api.soundcloud.com/tracks?q==${data.query}`);
+        xhr.open('GET', `http://api.soundcloud.com/search?client_id=${data.clientid}&q=${data.query}`);
         xhr.send();
       };
       this.alt.resolve(promise);
