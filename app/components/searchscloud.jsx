@@ -184,7 +184,7 @@ class Searchscloud extends Component {
           <input
             value={this.state.searchQry}
             onChange={this._startSearch} />
-          {this._getIntlMessage('search.heading')}
+          {this._getIntlMessage('search.limit')}
           <input
             type='number'
             min='0'

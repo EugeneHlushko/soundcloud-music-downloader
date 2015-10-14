@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="42" height="42" viewBox="0 0 441 441">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #000;
+      }
+
+      .cls-1, .cls-3 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: #e1e1e1;
+      }
+
+      .cls-2 {
+        filter: url(#color-overlay-1);
+      }
+
+      .cls-4 {
+        filter: url(#color-overlay-2);
+      }
+
+      .cls-5 {
+        fill: #fff;
+      }
+    </style>
+
+    <filter id="color-overlay-1" filterUnits="userSpaceOnUse">
+      <feFlood flood-color="#232323"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+      <feBlend in2="SourceGraphic" result="solidFill"/>
+    </filter>
+    <filter id="color-overlay-2" filterUnits="userSpaceOnUse">
+      <feFlood flood-color="#232323"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+      <feBlend in2="SourceGraphic" result="solidFill"/>
+    </filter>
+  </defs>
+  <g>
+    <path d="M12.000,0.000 L388.000,0.000 C417.271,0.000 441.000,23.729 441.000,53.000 L441.000,429.000 C441.000,435.627 435.627,441.000 429.000,441.000 L12.000,441.000 C5.373,441.000 0.000,435.627 0.000,429.000 L0.000,12.000 C0.000,5.373 5.373,0.000 12.000,0.000 Z" class="cls-1"/>
+    <g>
+      <rect x="62" width="290" height="172" class="cls-2"/>
+      <path d="M130.000,0.000 L371.000,0.000 L371.000,162.000 C371.000,167.523 366.523,172.000 361.000,172.000 L140.000,172.000 C134.477,172.000 130.000,167.523 130.000,162.000 L130.000,0.000 Z" class="cls-3"/>
+      <rect x="291" y="18" width="57" height="147" class="cls-4"/>
+    </g>
+    <rect x="405" y="395" width="26" height="26" class="cls-5"/>
+    <rect x="10" y="395" width="26" height="26" class="cls-5"/>
+  </g>
+</svg>

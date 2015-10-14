@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {IntlMixin} from 'react-intl';
 import debug from 'debug';
 
+// import render components
+import TrackOutside from 'components/shared/trackOutside';
+
 if (process.env.BROWSER) {
   require('styles/tracks.scss');
 }
@@ -39,28 +42,6 @@ class Tracks extends Component {
     });
   }
 
-  _renderTracks = (pls) => {
-    return (
-      <div className='track cfx' key={pls.id} uri={pls.uri}>
-        <div className='track--id'>
-          {pls.id}
-        </div>
-        <div className='track--title'>
-          {pls.title}
-        </div>
-        <div className='track--actions'>
-          <div className='track--action dl'>
-            {this._getIntlMessage('playlists.action.dl')}
-          </div>
-          <div className='track--action remove'
-            onClick={this.props.addTrack.bind(this, pls)} >
-            {this._getIntlMessage('tracks.remove')}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   _changePlaylistName = (event) => {
     return this.setState({playlistName: event.target.value});
   }
@@ -83,15 +64,13 @@ class Tracks extends Component {
             onChange={this._changePlaylistName} />
 
           <div className={_dlActive}
+            title={this._getIntlMessage('tracks.downloadPlaylist')}
             onClick={this._donwloadPlaylistTracksNow} >
             {this._getIntlMessage('tracks.downloadPlaylist')}
           </div>
         </div>
-        <div className='appTracks--bulk cfx'>
+        <div className='appTracks--bulk sidebar cfx'>
           <div className='track headingrow cfx'>
-            <div className='track--id'>
-              {this._getIntlMessage('tracks.id')}
-            </div>
             <div className='track--title'>
               {this._getIntlMessage('tracks.title')}
             </div>
@@ -99,8 +78,20 @@ class Tracks extends Component {
               {this._getIntlMessage('playlists.actions')}
             </div>
           </div>
+
           {
-            tracks.map(this._renderTracks)
+            tracks.map((item) => {
+              let isIn = tracks.some((oneItem)=> {
+                return oneItem.id === item.id;
+              });
+              return (<TrackOutside
+                {...this.state.i18n}
+                flux={this.props.flux}
+                addTrack={this.props.addTrack}
+                isIn={isIn}
+                item={item}
+                key={item.id} />);
+            })
           }
         </div>
       </section>

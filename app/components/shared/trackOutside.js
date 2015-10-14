@@ -29,16 +29,17 @@ class TrackOutside extends Component {
     let trackActionText = (this.props.isIn)
       ? this.state.i18n.messages.tracks.remove
       : this.state.i18n.messages.tracks.add;
-    let actionClass = (this.props.isIn) ? 'track--action remove' : 'track--action';
+    // let actionClass = (this.props.isIn) ? 'track--action remove' : 'track--action add';
+    let actionClass = (this.props.isIn) ? 'track--action remove' : 'track--action add';
     return (
       <div className='track cfx' key={this.props.item.id} uri={this.props.item.uri} >
         <div className='track--title'>
           {this.props.item.title}
         </div>
         <div className='track--actions'>
-          <div className='track--action dl'>
+          <a href={this.props.item.stream_url + '?client_id=' + this.props.flux.getStore('client').getClientid()} target='_blank' className='track--action dl'>
             {this.state.i18n.messages.playlists.action.dl}
-          </div>
+          </a>
           <div className={actionClass}
                onClick={this.props.addTrack.bind(this, this.props.item)} >
             {trackActionText}

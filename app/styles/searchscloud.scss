@@ -6,7 +6,11 @@ $defaultSpacing: 5px;
   vertical-align: middle;
 
   > span {
-    margin-right: $defaultSpacing;
+    margin: 0 $defaultSpacing;
+
+    &:first-child {
+      margin-left: 0;
+    }
   }
 
   &--inline {
