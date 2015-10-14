@@ -24,7 +24,7 @@ class SearchActions {
         else {
           searchType = 'search';
         }
-        let requestUrl = `http://api.soundcloud.com/${searchType}?client_id=${data.clientid}&q=${data.searchQry}`;
+        let requestUrl = `http://api.soundcloud.com/${searchType}?client_id=${data.clientid}&q=${data.searchQry}&limit=${data.resultsLimit}`;
         debug('dev')('REQUEST URL', requestUrl);
         xhr.onreadystatechange = () => {
           debug('dev')('Searching in action, we received xhr response, readystate is: ', xhr.readyState);

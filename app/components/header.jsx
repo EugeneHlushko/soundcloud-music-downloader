@@ -36,10 +36,8 @@ class Header extends Component {
     return (
       <header className='app--header'>
         <h1>{this._getIntlMessage('header.heading')}</h1>
-        {/* Spinner in the top right corner */}
         <Spinner active={this.state.spinner} />
 
-        {/* Links in the navbar */}
         <ul className='app--navbar text-center reset-list un-select'>
           <li>
             <Link to={this._getIntlMessage('routes.getLists')}>

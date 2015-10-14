@@ -20,7 +20,6 @@ class Footer extends Component {
 
     return (
       <footer className='app--footer'>
-        {/* LangPicker on the right side */}
         <Clientid
           flux={flux} />
 

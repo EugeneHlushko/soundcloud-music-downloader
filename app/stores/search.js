@@ -7,6 +7,15 @@ class SearchStore {
     this.results = [];
   }
 
+  static getResultsDefaultLimit() {
+    return 50;
+  }
+
+  static getResultsMaxLimit() {
+    // this might be limited by soundcloud to a lower value
+    return 200;
+  }
+
   onSearchSuccess(results) {
     debug('dev')('received results in onSearchSuccess: ', results);
     // debug('dev')('results.length is', results.collection.length);

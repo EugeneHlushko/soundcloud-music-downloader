@@ -25,20 +25,28 @@ class Searchscloud extends Component {
     interval: 1000
   };
 
-  _getIntlMessage = IntlMixin.getIntlMessage
+  _getIntlMessage = IntlMixin.getIntlMessage;
+
+  componentWillMount() {
+    this.setState({
+      searchQry: '',
+      clientid: this.props.flux
+        .getStore('client')
+        .getClientid(),
+      i18: this.props.flux
+        .getStore('locale')
+        .getState(),
+      filter: '',
+      resultsLimit: this.props.flux.getStore('search').getResultsDefaultLimit(),
+      resultsDefaultLimit: this.props.flux.getStore('search').getResultsDefaultLimit(),
+      resultsMaxLimit: this.props.flux.getStore('search').getResultsMaxLimit()
+    });
+  }
 
   componentDidMount() {
     this.props.flux
       .getStore('search')
       .listen(this._handleResultsChange);
-    this.state.searchQry = '';
-    this.state.clientid = this.props.flux
-      .getStore('client')
-      .getClientid();
-    this.state.i18 = this.props.flux
-      .getStore('locale')
-      .getState();
-    this.state.filter = '';
     setInterval(() => {
       debug('dev')(this.state.filter);
     }, 1000);
@@ -79,6 +87,35 @@ class Searchscloud extends Component {
     }
   }
 
+  _needReSearch = () => {
+    if ( this._timeout.running ) {
+      clearTimeout(this._timeout.itself);
+      this._timeout.itself = null;
+      this._timeout.running = false;
+    }
+    // now that TO is cleared, start new one
+    this._timeout.running = true;
+    this._timeout.itself = setTimeout(this._doSearch, this._timeout.interval);
+  }
+
+  _changeLimit = (event) => {
+    let _val = event.target.value;
+    debug('dev')('i will change the limit of results, and if search query is available i will re-search with new limit', _val);
+    debug('dev')(event);
+    if ( _val > 0 && _val <= this.state.resultsMaxLimit ) {
+      debug('dev')('case 1');
+      return this.setState({resultsLimit: _val}, this._needReSearch);
+    }
+    else if ( _val > this.state.resultsMaxLimit || _val < 0 ) {
+      debug('dev')('case 2');
+      return this.setState({resultsLimit: this.state.resultsMaxLimit}, this._needReSearch);
+    }
+    else {
+      debug('dev')('case 3');
+      return this.setState({resultsLimit: this.state.resultsDefaultLimit});
+    }
+  }
+
   _handleResultsChange = (store) => {
     debug('dev')('YEAH handle the add track here man', store);
     return this.setState(store);
@@ -104,12 +141,13 @@ class Searchscloud extends Component {
     // since this is now called from checkboxes and input, ill add additional check for query length
     if ( this.state.searchQry.length > 2 ) {
       // destruct state
-      let {searchQry, clientid, filter} = this.state;
+      let {searchQry, clientid, filter, resultsLimit} = this.state;
       // trigger search action
       this.props.flux.getActions('search').searchTrack({
         searchQry,
         clientid,
-        filter
+        filter,
+        resultsLimit
       });
     }
   }
@@ -146,6 +184,14 @@ class Searchscloud extends Component {
           <input
             value={this.state.searchQry}
             onChange={this._startSearch} />
+          {this._getIntlMessage('search.heading')}
+          <input
+            type='number'
+            min='0'
+            max='500'
+            id='limit'
+            value={this.state.resultsLimit}
+            onChange={this._changeLimit} />
           <div className="searchRow--inline">
             <label for='tracks'>{this._getIntlMessage('search.byTrack')}</label>
             <input type='radio' name='filter' id='tracks' />

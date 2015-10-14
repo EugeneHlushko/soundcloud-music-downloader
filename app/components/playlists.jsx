@@ -25,15 +25,12 @@ class Playlists extends Component {
     this.props.flux
       .getActions('page-title')
       .set(this._getIntlMessage('playlists.page-title'));
+    this.state.userid = this.props.flux
+      .getStore('playlists')
+      .getUserid();
+    this.state.playlistTracks = [];
 
     debug('dev')('State is: ', this.state);
-  }
-
-  componentWillMount() {
-    this.state.userid = this.props.flux
-        .getStore('playlists')
-        .getUserid();
-    this.state.playlistTracks = [];
   }
 
   componentDidMount() {
