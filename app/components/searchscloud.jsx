@@ -38,16 +38,45 @@ class Searchscloud extends Component {
     this.state.i18 = this.props.flux
       .getStore('locale')
       .getState();
-
-//    setInterval(() => {
-//      debug('dev')(this.state.searchQry);
-//    }, 100);
+    this.state.filter = '';
+    setInterval(() => {
+      debug('dev')(this.state.filter);
+    }, 1000);
   }
 
   componentWillUnmount() {
     this.props.flux
       .getStore('search')
       .unlisten(this._handleResultsChange);
+  }
+
+  _handleSearchRowClick = (event) => {
+    debug('dev')(event.target);
+    let clicked = false;
+    let target = event.target;
+    let id;
+
+    if ( target.tagName === 'LABEL' ) {
+      target.nextSibling.click();
+    }
+    else if ( target.tagName === 'INPUT' && target.type === 'radio') {
+      clicked = target;
+    }
+    // if its about type switching, lets change our state.
+    if ( clicked ) {
+      id = clicked.getAttribute('id');
+      debug('dev')('we clicked the right spot man!', id);
+      if ( id ) {
+        if ( this.state.filter === id ) {
+          debug('dev')('it was already our filter, do nothing');
+          return false;
+        }
+        else {
+          debug('dev')('Setting new filter');
+          this.setState({filter: id}, this._doSearch);
+        }
+      }
+    }
   }
 
   _handleResultsChange = (store) => {
@@ -72,34 +101,17 @@ class Searchscloud extends Component {
   }
 
   _doSearch = () => {
-    this.props.flux.getActions('search').searchTrack({
-      query: this.state.searchQry,
-      clientid: this.state.clientid
-    });
-  }
-
-  _renderTracks = (pls) => {
-    let isIn = this.props.allTracks.some((oneItem)=> {
-      return oneItem.id === pls.id;
-    });
-    let trackActionText = (isIn) ? this._getIntlMessage('tracks.remove') : this._getIntlMessage('tracks.add');
-    let actionClass = (isIn) ? 'track--action remove' : 'track--action';
-    return (
-      <div className='track cfx' key={pls.id} uri={pls.uri}>
-        <div className='track--title'>
-          {pls.title}
-        </div>
-        <div className='track--actions'>
-          <div className='track--action dl'>
-            {this._getIntlMessage('playlists.action.dl')}
-          </div>
-          <div className={actionClass}
-            onClick={this.props.addTrack.bind(this, pls)} >
-            {trackActionText}
-          </div>
-        </div>
-      </div>
-    );
+    // since this is now called from checkboxes and input, ill add additional check for query length
+    if ( this.state.searchQry.length > 2 ) {
+      // destruct state
+      let {searchQry, clientid, filter} = this.state;
+      // trigger search action
+      this.props.flux.getActions('search').searchTrack({
+        searchQry,
+        clientid,
+        filter
+      });
+    }
   }
 
   _renderUser = (pls) => {
@@ -127,18 +139,31 @@ class Searchscloud extends Component {
     return (
       <section className={_resultsActive}>
         <h1></h1>
-        <div className='searchRow cfx'>
+        <div className='searchRow cfx'
+          onClick={this._handleSearchRowClick.bind(this)}
+          >
           {this._getIntlMessage('search.heading')}
           <input
             value={this.state.searchQry}
             onChange={this._startSearch} />
+          <div className="searchRow--inline">
+            <label for='tracks'>{this._getIntlMessage('search.byTrack')}</label>
+            <input type='radio' name='filter' id='tracks' />
+          </div>
+          <div className="searchRow--inline">
+            <label for='users'>{this._getIntlMessage('search.byUser')}</label>
+            <input type='radio' name='filter' id='users' />
+          </div>
+          <div className="searchRow--inline">
+            <label for='playlists'>{this._getIntlMessage('search.byPlaylist')}</label>
+            <input type='radio' name='filter' id='playlists' />
+          </div>
         </div>
         <div className='appTracks--bulk cfx'>
         {
           this.state.results.map((item) => {
             debug('dev')('Will render this item: ', item);
             if ( item.kind === 'track' ) {
-              // return this._renderTracks(item);
               let isIn = this.props.allTracks.some((oneItem)=> {
                 return oneItem.id === item.id;
               });

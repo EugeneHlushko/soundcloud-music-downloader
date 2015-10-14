@@ -9,9 +9,12 @@ class SearchStore {
 
   onSearchSuccess(results) {
     debug('dev')('received results in onSearchSuccess: ', results);
-    debug('dev')('results.length is', results.collection.length);
-    if ( results.collection.length > 0 ) {
+    // debug('dev')('results.length is', results.collection.length);
+    if ( results.collection && results.collection.length > 0 ) {
       return this.setState({results: results.collection});
+    }
+    else if ( !results.collection && results.length > 0 ) {
+      return this.setState({results: results});
     }
     else {
       return this.setState({results: []});

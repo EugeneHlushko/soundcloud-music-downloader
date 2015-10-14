@@ -1,0 +1,24 @@
+$defaultSpacing: 5px;
+
+.searchRow {
+  padding: 0 2%;
+  line-height: 32px;
+  vertical-align: middle;
+
+  > span {
+    margin-right: $defaultSpacing;
+  }
+
+  &--inline {
+    display: inline-block;
+    margin: 0 1%;
+
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    label {
+      margin-right: $defaultSpacing;
+    }
+  }
+}

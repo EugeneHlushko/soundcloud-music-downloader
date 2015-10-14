@@ -31,7 +31,10 @@ export default {
     },
     search: {
       'page-title': 'Search audio on Soundcloud',
-      'heading': 'Enter keyword to search'
+      'heading': 'Enter keyword to search',
+      'byTrack': 'tracks',
+      'byUser': 'users',
+      'byPlaylist': 'playlists'
     },
     user: {
       view: 'View profile'

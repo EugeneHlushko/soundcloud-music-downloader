@@ -10,12 +10,22 @@ class SearchActions {
 
   searchTrack(data) {
     const prv = this;
-    debug('dev')('Will search for tracks, keyword is: ', data.query);
-    if (data.query) {
+    debug('dev')('Will search for tracks, keyword is: ', data.searchQry, data.filter);
+    if (data.searchQry) {
       // set up xhr in a promise and then resolve it
       const promise = (resolve) => {
         this.alt.getActions('requests').start();
         let xhr = new XMLHttpRequest();
+        // if we have filter by kind selected
+        let searchType;
+        if ( data.filter.length > 0 ) {
+          searchType = ( data.filter === 'playlists' ) ? 'search/sets' : data.filter;
+        }
+        else {
+          searchType = 'search';
+        }
+        let requestUrl = `http://api.soundcloud.com/${searchType}?client_id=${data.clientid}&q=${data.searchQry}`;
+        debug('dev')('REQUEST URL', requestUrl);
         xhr.onreadystatechange = () => {
           debug('dev')('Searching in action, we received xhr response, readystate is: ', xhr.readyState);
           if (xhr.readyState === 4) {
@@ -31,7 +41,7 @@ class SearchActions {
             }
           }
         };
-        xhr.open('GET', `http://api.soundcloud.com/search?client_id=${data.clientid}&q=${data.query}`);
+        xhr.open('GET', requestUrl);
         xhr.send();
       };
       this.alt.resolve(promise);
